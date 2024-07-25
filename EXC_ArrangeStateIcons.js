@@ -13,7 +13,7 @@
  * @target MZ
  * @plugindesc 戦闘画面でステータスアイコンを並べて表示します
  * @author IdiotException
- * @url https://github.com/IdiotException/EXC_SkillNameWindow
+ * @url https://github.com/IdiotException/EXC_ArrangeStateIcons
  * @help 戦闘画面でステータスアイコンを並べて表示します
  * 
  * アイコンの表示・非表示を透過率で処理しているため、
@@ -201,6 +201,7 @@ const EXCArrangeStateIcons = document.currentScript.src.match(/^.*\/(.+)\.js$/)[
 	// Sprite_StateIconChild
 	//
 	// 並ぶステータスアイコン用
+	// Sprite_StateIconをもとにしているのでそちらに影響があるプラグインの影響も受ける
 
 	function Sprite_StateIconChild() {
 		this.initialize(...arguments);
@@ -235,7 +236,9 @@ const EXCArrangeStateIcons = document.currentScript.src.match(/^.*\/(.+)\.js$/)[
 			icons.push(...this._battler.allIcons());
 		}
 		if (icons.length > 0) {
+			// このアイコン表示オブジェクトが表示するインデックスを計算
 			const tmpIndex = this._index + _maxIcons * this._pageIndex;
+
 			// ページ内で対象位置に表示するアイコンがあるか
 			if(tmpIndex < icons.length){
 				// 透過率をいじって表示・非表示を制御
@@ -255,6 +258,7 @@ const EXCArrangeStateIcons = document.currentScript.src.match(/^.*\/(.+)\.js$/)[
 			// 次ページのセット
 			this._pageIndex++;
 			if (this._pageIndex >= Math.ceil(icons.length / _maxIcons)) {
+				// 表示するものがなくなるページになる場合、ページを最初に戻す
 				this._pageIndex = 0;
 			}
 		} else {
